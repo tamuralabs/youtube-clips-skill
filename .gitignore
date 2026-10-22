@@ -1,0 +1,15 @@
+# configuração e credenciais locais: nunca versionar
+.env
+config.env
+LOCAL.md
+*cookies*.txt
+proxy-state.json
+
+# saídas e caches
+__pycache__/
+*.pyc
+clipes/
+*.mp4
+*.wav
+*.opus
+*.webm
