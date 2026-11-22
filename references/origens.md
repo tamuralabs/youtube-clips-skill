@@ -27,3 +27,11 @@ Esta skill é própria. O desenho veio da engenharia reversa de dois projetos, f
 - **Dublagem, B-roll, publicação e atores de IA:** fora do pedido. O B-roll do SupoClip nem está ligado no pipeline.
 - **Câmera por quem fala** (movimento da boca + diarização): é complexa e frágil em CPU. Fica como evolução.
 - **PO token para o YouTube:** em IP de datacenter não basta sozinho; usamos proxy residencial/ISP (Webshare ou qualquer `YOUTUBE_PROXY_URL`) ou cookies.
+
+## Revisão de 22/11/2026
+
+Comparadas OpenShorts `0af2185c91` até `60e77143fabb54d9d4c7068ce9a65ef93a69be4d` e SupoClip `7010b4c556` até `8aef4bc108d45bb01fe866db5a2cedccc30d1578`, nos mesmos caminhos. Nenhum código copiado.
+
+- **Vídeo longo (OpenShorts):** a seleção cobre o vídeo inteiro por trechos, em vez de parar nos primeiros minutos (regra em `selection.md`). A cota proporcional de até 60 clipes do OpenShorts não foi adotada: menos clipes fortes continuam valendo mais.
+- **Ficou de fora:** legenda menor sem segunda linha, título-gancho fora dos rostos em plano duplo empilhado, empilhamento de entrevista e modo pro (OpenShorts); layout de gameplay, clipes de vídeo sem fala por capítulo e intensidade de edição dinâmica (SupoClip). Exigem mudança no render em `/root/tools/youtube-clips` ou fogem do uso atual. Download multi-conta, filas de GPU, cobrança e planos são operação de SaaS, fora do escopo.
+

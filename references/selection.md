@@ -5,6 +5,7 @@ Você está fazendo seleção de trechos, não resumo nem reescrita. Cada clipe 
 ## Quantos
 
 - Cerca de 1 clipe a cada 4-5 min de vídeo, entre 3 e 10. Menos clipes fortes valem mais que cota cheia.
+- Em vídeo longo (mais de ~50 min), ler a transcrição inteira por trechos e escolher ao longo de todo o vídeo, não só da primeira parte. O teto de 10 só sobe quando o pedido trouxer outro número.
 - Nunca publique algo que você mesmo não postaria. Se o material só sustenta 2, entregue 2 e diga por quê.
 
 ## Duração
