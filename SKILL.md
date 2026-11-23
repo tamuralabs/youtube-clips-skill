@@ -1,6 +1,6 @@
 ---
 name: youtube-clips
-description: Transforma um vídeo longo (link do YouTube ou arquivo) em clipes verticais 9:16 prontos para Reels, TikTok e Shorts, com corte nos momentos mais fortes, enquadramento no rosto, legenda palavra a palavra (traduzida para PT-BR quando o vídeo é em outro idioma), gancho na tela e texto de publicação. Use para "cria clipes desse vídeo", "corta esse podcast em shorts", "gera cortes virais", "clips do YouTube".
+description: "Transforma vídeo longo (YouTube ou arquivo) em clipes verticais 9:16 com corte nos melhores momentos, rosto enquadrado, legenda em PT-BR e gancho. Use em cria clipes desse vídeo, cortes virais ou shorts de podcast."
 ---
 
 # Clipes a partir de vídeo longo
@@ -21,7 +21,7 @@ Sem `LOCAL.md`, salve em `./clipes/<AAAA-MM-DD>-<slug-do-video>/` a partir do di
 python3 .../clips.py prepare "<URL ou arquivo>" --out <DIR> --language pt
 ```
 
-Passe `--language` quando souber o idioma. Gera `transcript.txt` (frases com `[início-fim]` em segundos e pistas automáticas no topo), `transcript.json` (palavras) e `meta.json`.
+Passe `--language` quando souber o idioma. Gera `transcript.txt` (frases com `[início-fim]` em segundos e, no topo, pistas automáticas e os picos de "mais repetidos" do YouTube quando a plataforma os publica), `transcript.json` (palavras) e `meta.json`.
 
 **Transcrição (`--asr`)**, em blocos de 10 min com checkpoint por bloco (um reinício retoma de onde parou):
 - `auto` (padrão): os blocos vão em paralelo para a Groq (`whisper-large-v3` e `-turbo`, com `GROQ_API_KEY`). 10 min de áudio levam ~4 s. O plano gratuito da Groq dá 2 h de áudio por hora **por modelo**; se a cota acabar, o Whisper local assume blocos a partir do fim. Plano pago: US$ 0,111/h de áudio.
@@ -37,6 +37,12 @@ Passe `--language` quando souber o idioma. Gera `transcript.txt` (frases com `[i
 4. Arquivo local: passe o caminho no lugar da URL.
 
 **Tempos de referência** (CPU de 4 núcleos, podcast de 4h17 com proxy): áudio ~5 min, transcrição ~3,5 min, 10 clipes em 1080p ~23 min.
+
+## Texto público dos clipes
+
+Preferência do Tamura (18/11/2026): não citar fonte, canal de origem, autor como crédito, URL de origem ou data/ano do vídeo original na legenda do post nem dentro do vídeo (rodapé, gancho, legenda queimada ou encerramento). A legenda pública contém apenas o conteúdo do trecho, CTA e hashtags pertinentes. Preservar origem e datas somente nos metadados internos para rastreabilidade; não copiar esses campos para a publicação. Isso não altera direitos de uso nem dispensa eventual atribuição legalmente exigida: nesse caso, resolver a licença antes de publicar.
+
+Antes de entregar ou programar, conferir o texto público e amostras do início, meio e fim do MP4 final. Remover créditos e datas também de templates, overlays ASS e renderizadores customizados; limpar apenas a legenda do post não corrige texto já queimado no vídeo. Não declarar arquivos antigos corrigidos sem reexportar e conferir a versão final usada pela fila.
 
 ## 3. Escolher os momentos (trabalho editorial seu)
 
@@ -68,7 +74,31 @@ Leia `transcript.txt` inteiro e aplique [references/selection.md](references/sel
 - `style` aceita: `font_size`, `uppercase`, `text_color`, `highlight_color`, `caption_position` (fração da altura a partir de baixo, padrão 0.27, acima da interface das redes), `max_chars`, `hook_seconds` (0 desliga o gancho), `hook_text_color`, `hook_box_color`, `hook_position`, `translate`. Para vídeo de marca, use as cores da identidade dela.
 - `encode` aceita `preset`, `crf`, `loudnorm`.
 
-## 4. Renderizar e conferir
+## 4. Editar no padrão Remotion (padrão dos clipes)
+
+Padrão aprovado pelo Tamura em 23/11/2026: tela cheia no rosto com zooms pequenos e lentos (até ~7% a cada ~4 s) e deslizes laterais suaves (nada de aproximação brusca), legenda palavra por palavra **abaixo do rosto** (só a palavra falada em destaque), banner de abertura em papel rasgado por 3,2 s no alto (sem emoji), CTA e faixa final opcionais. Template em `remotion/` (`src/Clip.tsx`); `scripts/editar.py` baixa o trecho em 1080p, alinha, acha o rosto, monta a legenda e renderiza num runtime com `node_modules` fora da skill (`YOUTUBE_CLIPS_HOME/remotion-runtime`; instala sozinho na primeira vez). Precisa de Node 18+ e Chrome. Para a mecânica do Remotion, use as skills `remotion-*`.
+
+**Antes de editar, pergunte ao usuário (obrigatório, uma vez por lote):** "Os clipes vão ter CTA? Para onde ele leva?" e escolha o elemento pela resposta:
+
+| Resposta | Elemento | Opções do `editar.py` |
+|---|---|---|
+| Link na bio (grupo, site, produto, lista) | Caixa "Faça uma pergunta" no canto superior direito, com frase pulsando embaixo | `--cta question --cta-question "<pergunta sobre o destino>" [--cta-pulse "LINK NA BIO!"]` |
+| Seguir o perfil, parte 2, comentar uma palavra | Faixa no alto, pulsando de leve | `--cta banner --cta-text "Siga para a parte 2"` |
+| Sem CTA | Nada | `--cta none` |
+
+A pergunta da caixa fala do destino, não do assunto do clipe (ex.: "Como entrar no grupo VIP de relógios?"). Pergunte também se há faixa final da marca (`--end-text`, `--end-logo`, `--end-bg`) e use as cores e a fonte do `DESIGN.md` da marca (`--highlight`, `--hook-bg`, `--font`).
+
+```bash
+python3 .../scripts/editar.py --work <DIR> --start <s> --end <s> --slug <slug> --hook "<gancho>" \
+    --cta question --cta-question "<pergunta>" --end-text "<faixa final>" --fix "Errado=Certo" [--logo tr]
+```
+
+- `--logo tr|tl|br|bl`: canto onde o canal de origem tem logo fixo. O enquadramento cortaria esse canto, então ele é recortado e recolocado. **Nunca apagar o logo do dono do vídeo.**
+- Saída em `<DIR>/clips-remotion/<slug>.mp4` e `<slug>-qa.jpg` (banner, CTA, meio e faixa final). Cerca de 3,5 min para 30 s de clipe; um render por vez. Antes do render, conferir a última palavra e os nomes no `remotion-<slug>.json` (`--no-render` só prepara).
+- Mais de 3 clipes: 1 piloto para o usuário validar antes do lote.
+- O render antigo (`clips.py render`, legenda ASS) fica como reserva para quando não houver Node/Chrome ou para layouts `blur` (tela, slide, duas pessoas).
+
+## 4b. Render simples (reserva)
 
 ```bash
 python3 .../clips.py render <DIR>            # todos

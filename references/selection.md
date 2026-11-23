@@ -15,7 +15,16 @@ Você está fazendo seleção de trechos, não resumo nem reescrita. Cada clipe 
 
 ## O teste dos 2 segundos
 
-O critério principal: as duas primeiras frases fazem alguém sem contexto parar de rolar a tela? Se o clipe abre com pronome sem referente ("isso", "ele", "então..."), com resposta a uma pergunta feita antes ou com "como eu disse", mova o início para onde a ideia começa ou descarte. Corrija pelo **início**, nunca cortando o desfecho.
+O critério principal: as duas primeiras frases fazem alguém sem contexto parar de rolar a tela? Julgue essas frases sozinhas, sem contar com o gancho na tela. Se o clipe abre com pronome sem referente ("isso", "ele", "então..."), com resposta a uma pergunta feita antes ou com "como eu disse", mova o início para onde a ideia começa ou descarte. Corrija pelo **início**, nunca cortando o desfecho.
+
+Também não abra em:
+
+- muleta ou concordância solta ("né", "tipo", "sim", "exato", "pois é");
+- resposta de uma palavra a uma pergunta que ficou fora do clipe;
+- conjunção que continua um raciocínio anterior ("mas o principal...", "e aí...", "então é por isso que...");
+- aquecimento antes do ponto (cumprimento, chamar alguém, reação a algo fora de quadro).
+
+Se a ideia só faz sentido com o substantivo, a afirmação ou a pergunta da frase anterior, inclua essa frase. No fim, feche na frase que entrega o ponto, sem levar as primeiras palavras do assunto seguinte.
 
 ## Bons sinais
 
@@ -28,6 +37,8 @@ O critério principal: as duas primeiras frases fazem alguém sem contexto parar
 ## Descarte
 
 Abertura e apresentação, patrocínio, "se inscreve no canal", definições sem consequência, repetição de um ponto já escolhido, contexto longo sem desfecho, citação solta que depende do resto do vídeo.
+
+Descarte também trechos em que a fala indica que a imagem está fora do ar ou parada ("problema técnico", "já voltamos", "essas imagens não podem ser mostradas", transmissão congelada, tela de teste). Por mais forte que seja o texto, a imagem costuma ser uma vinheta fixa ou tela preta. Se um `-qa.jpg` mostrar o mesmo quadro nos 4 momentos sem que o vídeo seja um plano fixo de pessoa falando, troque o clipe.
 
 ## Diversidade
 
@@ -48,8 +59,10 @@ Tudo em português do Brasil, mesmo quando o vídeo é em outro idioma (a legend
 
 ## Teaser de abertura (opcional)
 
-Se a frase mais forte (punchline, número, pico de emoção) aparece no meio do clipe, informe o intervalo dela em `teaser`: até 6 s, começando pelo menos 2 s depois do início do clipe, e que faça sentido sozinha. Ela toca antes do clipe como chamada. Não use quando o clipe já abre na melhor frase.
+Se a frase mais forte (punchline, número, pico de emoção) aparece no meio do clipe, informe o intervalo dela em `teaser`: até 6 s, começando pelo menos 2 s depois do início do clipe, e que faça sentido sozinha. Ela toca antes do clipe como chamada. Não use quando o clipe já abre na melhor frase. O teaser não conserta abertura fraca: se o começo real não se sustenta, mova o início ou descarte o trecho, em vez de contar com a frase repetida na frente.
 
 ## Pistas automáticas
 
 O topo do `transcript.txt` lista frases com pergunta, número, pausa antes ou palavras de gatilho. São indicações de onde olhar, não decisão. A escolha final é sua, sempre baseada na fala.
+
+Em vídeos do YouTube com gráfico de "mais repetidos", o topo lista também os picos de repetição do público, com a frase que toca no pico. É evidência de que o momento prende quem já assiste, inclusive quando o texto parece fraco (reação, demonstração visual). Leia o trecho ao redor: o melhor clipe dessa região costuma cobrir o pico e começar alguns segundos antes, para ter a preparação. O pico ainda precisa passar no teste dos 2 segundos e fazer sentido para quem não viu o resto. O 1º minuto fica de fora porque quase todo mundo assiste ao começo.

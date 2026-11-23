@@ -1,6 +1,6 @@
 # Origens e decisões de engenharia
 
-Esta skill é própria. O desenho veio da engenharia reversa de dois projetos, feita em 20/10/2026. O REA mapeou o grafo do projeto Remotion do OpenShorts (legendas e gancho), e os pipelines Python foram lidos diretamente no código-fonte, porque o REA não se aplica a repositório aberto. Não há código copiado de nenhum dos dois.
+Esta skill é própria. O desenho veio da engenharia reversa de dois projetos, feita em 20/10/2026. Foi mapeado o grafo do projeto Remotion do OpenShorts (legendas e gancho), e os pipelines Python foram lidos diretamente no código-fonte. Não há código copiado de nenhum dos dois.
 
 | Projeto | Revisão estudada | Licença | Uso |
 |---|---|---|---|
@@ -28,10 +28,19 @@ Esta skill é própria. O desenho veio da engenharia reversa de dois projetos, f
 - **Câmera por quem fala** (movimento da boca + diarização): é complexa e frágil em CPU. Fica como evolução.
 - **PO token para o YouTube:** em IP de datacenter não basta sozinho; usamos proxy residencial/ISP (Webshare ou qualquer `YOUTUBE_PROXY_URL`) ou cookies.
 
+## Revisão de 08/11/2026
+
+Comparadas as revisões estudadas com OpenShorts `0af2185c91ef4c95a030034b85df70d9563ba639` e SupoClip `7010b4c556ced716fb70867d1149da5fa7c7ff0f`, nos caminhos acima e nos sucessores de seleção, legenda e enquadramento. Nenhum código copiado.
+
+- **Sinal de audiência (OpenShorts, clipes feitos por espectadores da Twitch):** adaptado ao YouTube como os picos de "mais repetidos" que o yt-dlp já traz nos metadados, listados no topo da transcrição como pista.
+- **Aberturas e fins (SupoClip):** regras novas contra muleta, resposta solta, conjunção de continuação, aquecimento e fim que invade o assunto seguinte; teaser não conserta abertura fraca.
+- **Imagem inutilizável (SupoClip):** descarte de trechos cuja fala indica imagem fora do ar e conferência no `-qa.jpg`, sem novo detector automático.
+- **Ficou de fora:** zoom do layout WIDE em torno do movimento e posição do gancho pela faixa da imagem (OpenShorts), largura renderizada de legenda, faixas de legenda queimada na fonte, histerese de layout de ~2,5 s, recorte que evita cortar texto da imagem e zoom no detalhe em plano com tela (SupoClip). Úteis, mas exigem mudança maior no render; ficam como evolução. Também ficaram de fora fluxos de série, recap e trailer, B-roll, render em GPU, visão por Gemini e publicação.
+
 ## Revisão de 22/11/2026
 
 Comparadas OpenShorts `0af2185c91` até `60e77143fabb54d9d4c7068ce9a65ef93a69be4d` e SupoClip `7010b4c556` até `8aef4bc108d45bb01fe866db5a2cedccc30d1578`, nos mesmos caminhos. Nenhum código copiado.
 
 - **Vídeo longo (OpenShorts):** a seleção cobre o vídeo inteiro por trechos, em vez de parar nos primeiros minutos (regra em `selection.md`). A cota proporcional de até 60 clipes do OpenShorts não foi adotada: menos clipes fortes continuam valendo mais.
-- **Ficou de fora:** legenda menor sem segunda linha, título-gancho fora dos rostos em plano duplo empilhado, empilhamento de entrevista e modo pro (OpenShorts); layout de gameplay, clipes de vídeo sem fala por capítulo e intensidade de edição dinâmica (SupoClip). Exigem mudança no render em `/root/tools/youtube-clips` ou fogem do uso atual. Download multi-conta, filas de GPU, cobrança e planos são operação de SaaS, fora do escopo.
+- **Ficou de fora:** legenda menor sem segunda linha, título-gancho fora dos rostos em plano duplo empilhado, empilhamento de entrevista e modo pro (OpenShorts); layout de gameplay, clipes de vídeo sem fala por capítulo e intensidade de edição dinâmica (SupoClip). Exigem mudança no render (`scripts/clips.py`) ou fogem do uso atual. Download multi-conta, filas de GPU, cobrança e planos são operação de SaaS, fora do escopo.
 

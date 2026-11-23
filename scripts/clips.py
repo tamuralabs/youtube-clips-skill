@@ -646,6 +646,7 @@ def cmd_prepare(a: argparse.Namespace) -> None:
                 else:
                     video, info = download_audio(a.source, out, cookies)
                     meta.update({k: info.get(k) for k in ("id", "title", "channel", "upload_date", "description")})
+                    meta["heatmap"] = compact_heatmap(info.get("heatmap"))
                     meta["remote"] = {"url": a.source, "max_height": a.max_height}
             except Blocked as err:
                 if a.downloader == "ytdlp":
@@ -656,6 +657,7 @@ def cmd_prepare(a: argparse.Namespace) -> None:
         if info_file.exists():
             info = json.loads(info_file.read_text())
             meta.update({k: info.get(k) for k in ("id", "title", "channel", "upload_date", "webpage_url", "description")})
+            meta["heatmap"] = compact_heatmap(info.get("heatmap"))
             info_file.unlink()
     meta["probe"] = ffprobe(video)
     meta["video"] = None if meta.get("remote") else video.name
@@ -695,6 +697,9 @@ def cmd_prepare(a: argparse.Namespace) -> None:
     sig = signal_lines(sents)
     if sig:
         lines += ["# pistas automáticas (só indicam onde olhar; a escolha é editorial):", *sig]
+    replay = heatmap_lines(meta.get("heatmap") or [], sents, tr["duration"])
+    if replay:
+        lines += ["# trechos mais repetidos pelo público no YouTube (sinal de audiência, não decide sozinho):", *replay]
     lines += [f"[{s['s']:.2f}-{s['e']:.2f}] ({fmt_ts(s['s'])}) {s['text']}" for s in sents]
     (out / "transcript.txt").write_text("\n".join(lines) + "\n")
     print(json.dumps({"out": str(out), "language": tr["language"], "duration": round(tr["duration"], 1),
@@ -889,6 +894,42 @@ def signal_lines(sents: list[dict], top: int = 15) -> list[str]:
             scored.append((score, s, reasons))
     scored.sort(key=lambda x: -x[0])
     return [f"# [{s['s']:.2f}] score={sc:g} ({', '.join(r)}): {s['text'][:110]}" for sc, s, r in scored[:top]]
+
+
+def compact_heatmap(raw) -> list[list[float]] | None:
+    """Gráfico "mais repetidos" do YouTube (yt-dlp `heatmap`) como [início, fim, valor 0-1]."""
+    out = []
+    for h in raw or []:
+        try:
+            out.append([round(float(h["start_time"]), 2), round(float(h["end_time"]), 2), round(float(h["value"]), 3)])
+        except (KeyError, TypeError, ValueError):
+            continue
+    return out or None
+
+
+def heatmap_lines(heatmap: list, sents: list[dict], total: float, top: int = 6) -> list[str]:
+    """Picos do "mais repetidos": janelas acima da média, fora do 1º minuto (todo mundo vê o começo),
+    agrupadas quando vizinhas, com a frase que está tocando no pico."""
+    if len(heatmap) < 10:
+        return []
+    vals = [v for _, _, v in heatmap]
+    mean = sum(vals) / len(vals)
+    hot = [h for h in heatmap if h[2] >= max(mean * 1.5, 0.35) and h[0] >= min(60.0, total * 0.05)]
+    groups: list[list] = []
+    for s, e, v in sorted(hot):
+        if groups and s - groups[-1][1] <= 1.0:
+            g = groups[-1]
+            g[1] = e
+            if v > g[2]:
+                g[2], g[3] = v, (s + e) / 2
+        else:
+            groups.append([s, e, v, (s + e) / 2])
+    groups.sort(key=lambda g: -g[2])
+    out = []
+    for s, e, v, peak in sorted(groups[:top], key=lambda g: g[0]):
+        frase = next((x["text"] for x in sents if x["s"] <= peak <= x["e"] + 0.5), "")
+        out.append(f"# [{s:.0f}-{e:.0f}] repetição={v:.2f}: {frase[:110]}")
+    return out
 
 
 # ---------------------------------------------------------------- render: análise visual

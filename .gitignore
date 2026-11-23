@@ -8,6 +8,8 @@ proxy-state.json
 # saídas e caches
 __pycache__/
 *.pyc
+node_modules/
+remotion/out/
 clipes/
 *.mp4
 *.wav
