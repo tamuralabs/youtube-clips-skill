@@ -74,6 +74,8 @@ Leia `transcript.txt` inteiro e aplique [references/selection.md](references/sel
 - `style` aceita: `font_size`, `uppercase`, `text_color`, `highlight_color`, `caption_position` (fração da altura a partir de baixo, padrão 0.27, acima da interface das redes), `max_chars`, `hook_seconds` (0 desliga o gancho), `hook_text_color`, `hook_box_color`, `hook_position`, `translate`. Para vídeo de marca, use as cores da identidade dela.
 - `encode` aceita `preset`, `crf`, `loudnorm`.
 
+Quando o pedido for **dividir por capítulos ou assuntos**, use o roteiro, capítulos ou mudanças claras no material para marcar as fronteiras. Preserve a ordem e a continuidade pedida. Quando for **escolher destaques**, priorize trechos autônomos, com começo compreensível e conclusão. Nos dois casos, confira o áudio nas bordas e a evidência visual antes de fixar tempos. Gancho na tela vem do que o corte entrega. Se o número for flexível, descarte trechos fracos em vez de preencher o lote.
+
 ## 4. Editar no padrão Remotion (padrão dos clipes)
 
 Padrão aprovado pelo Tamura em 23/11/2026: tela cheia no rosto com zooms pequenos e lentos (até ~7% a cada ~4 s) e deslizes laterais suaves (nada de aproximação brusca), legenda palavra por palavra **abaixo do rosto** (só a palavra falada em destaque), banner de abertura em papel rasgado por 3,2 s no alto (sem emoji), CTA e faixa final opcionais. Template em `remotion/` (`src/Clip.tsx`); `scripts/editar.py` baixa o trecho em 1080p, alinha, acha o rosto, monta a legenda e renderiza num runtime com `node_modules` fora da skill (`YOUTUBE_CLIPS_HOME/remotion-runtime`; instala sozinho na primeira vez). Precisa de Node 18+ e Chrome. Para a mecânica do Remotion, use as skills `remotion-*`.
