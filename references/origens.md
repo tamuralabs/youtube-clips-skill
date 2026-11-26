@@ -44,3 +44,10 @@ Comparadas OpenShorts `0af2185c91` até `60e77143fabb54d9d4c7068ce9a65ef93a69be4
 - **Vídeo longo (OpenShorts):** a seleção cobre o vídeo inteiro por trechos, em vez de parar nos primeiros minutos (regra em `selection.md`). A cota proporcional de até 60 clipes do OpenShorts não foi adotada: menos clipes fortes continuam valendo mais.
 - **Ficou de fora:** legenda menor sem segunda linha, título-gancho fora dos rostos em plano duplo empilhado, empilhamento de entrevista e modo pro (OpenShorts); layout de gameplay, clipes de vídeo sem fala por capítulo e intensidade de edição dinâmica (SupoClip). Exigem mudança no render (`scripts/clips.py`) ou fogem do uso atual. Download multi-conta, filas de GPU, cobrança e planos são operação de SaaS, fora do escopo.
 
+## Revisão de 26/11/2026
+
+Comparadas OpenShorts `60e77143fa` até `be28b3beb6c9` e SupoClip `8aef4bc108` até `29ca74f9f38f`, nos mesmos caminhos. Nenhum código copiado.
+
+- **Bordas por frase (SupoClip):** adaptadas duas regras em `selection.md`: o teto de duração recua o fim uma frase inteira e o falso começo não abre clipe.
+- **Ficou de fora:** cobertura de transmissões muito longas por janelas espaçadas (já coberta pela leitura por trechos), ajuste global de sincronia de legenda, exportação SRT/VTT e queima de legenda em GPU (OpenShorts); revisão de borda por chamada extra de modelo e por Whisper local, leitura de legenda queimada na fonte, legenda na emenda de plano duplo empilhado, recorte que desiste de seguir rosto instável e detecção de corte por mudança de cor (SupoClip). Exigem mudança no render (`scripts/clips.py`), custo extra por clipe ou layout que a skill não usa.
+

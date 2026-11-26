@@ -10,7 +10,7 @@ Você está fazendo seleção de trechos, não resumo nem reescrita. Cada clipe 
 
 ## Duração
 
-- Alvo de 25 a 50 s. Aceite 15-24 s só quando o trecho já tem preparação e desfecho completos. Passe de 60 s só quando uma história não fecha antes (máximo 90 s).
+- Alvo de 25 a 50 s. Aceite 15-24 s só quando o trecho já tem preparação e desfecho completos. Passe de 60 s só quando uma história não fecha antes (máximo 90 s). Para caber no teto, recue o fim uma frase inteira, nunca para o meio dela.
 - Se o momento bom é uma frase solta, expanda para as linhas vizinhas que dão contexto e desfecho. Pare de expandir quando o assunto muda, o falante se repete ou o ritmo cai.
 
 ## O teste dos 2 segundos
@@ -23,6 +23,7 @@ Também não abra em:
 - resposta de uma palavra a uma pergunta que ficou fora do clipe;
 - conjunção que continua um raciocínio anterior ("mas o principal...", "e aí...", "então é por isso que...");
 - aquecimento antes do ponto (cumprimento, chamar alguém, reação a algo fora de quadro).
+- falso começo (frase abandonada e recomeçada): abra na versão que o falante completa.
 
 Se a ideia só faz sentido com o substantivo, a afirmação ou a pergunta da frase anterior, inclua essa frase. No fim, feche na frase que entrega o ponto, sem levar as primeiras palavras do assunto seguinte.
 
